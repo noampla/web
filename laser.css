@@ -1,0 +1,360 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #edf2f7; /* Soft blue-gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Center everything vertically and horizontally */
+}
+
+/* Game container to hold the header and board */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Space between the header and the board */
+}
+
+/* Header (Game title) */
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for text */
+}
+
+/* Board styling */
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, 70px); /* 8 columns for expanded board */
+    grid-template-rows: repeat(8, 70px); /* 8 rows for expanded board */
+    gap: 8px; /* Add space between cells */
+    background-color: #ffffff;
+    padding: 20px;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for the board */
+}
+
+/* Individual cell styling */
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fefefe;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth hover effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for cells */
+}
+
+/* Hover effect for cells */
+.cell:hover {
+    background-color: #f0f8ff; /* Light blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Styling for labels (letters and numbers) */
+.cell[style*="background-color: #f0f0f0"] {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: #444; /* Darker color for labels */
+    background-color: #f0f0f0; /* Light gray for labels */
+    text-transform: uppercase; /* Letters in uppercase */
+    box-shadow: none; /* Remove shadow for labels */
+}
+
+/* Colored cells for red, blue, and green */
+.cell[style*="background-color: red"] {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cell[style*="background-color: blue"] {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cell[style*="background-color: green"] {
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Blocker cell styling */
+.cell[style*="background-color: black"] {
+    color: white;
+    font-weight: bold;
+    background-color: #333; /* Darker color for blockers */
+    border: 2px solid #444;
+}
+
+/* Output display styling */
+.output {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    padding: 15px 20px;
+    border: 2px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 60%;
+    text-align: center;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1); /* Slight shadow for output box */
+}
+
+/* Buttons (Hover effects and improved alignment) */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    animation: change 4s infinite;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+/* Responsive Design: Adjust grid and cell size for smaller screens */
+@media (max-width: 768px) {
+    .board {
+        grid-template-columns: repeat(8, 50px); /* Smaller cells */
+        grid-template-rows: repeat(8, 50px);
+    }
+    .cell {
+        font-size: 14px; /* Smaller font for cells */
+    }
+    .output {
+        width: 90%; /* Wider output box for smaller screens */
+        font-size: 16px;
+    }
+}
+
+/* Flash animation for entry points */
+@keyframes entryFlash {
+    0% {
+        background-color: #4caf50; /* Green */
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        border-radius: 50%; /* Circle */
+    }
+    50% {
+        background-color: #81c784; /* Light green */
+        transform: scale(1.2); /* Slightly enlarge */
+        box-shadow: 0 0 15px rgba(129, 199, 132, 0.8);
+        border-radius: 50%; /* Circle */
+    }
+    100% {
+        background-color: transparent; /* Reset to default */
+        transform: scale(1);
+        box-shadow: none;
+        border-radius: 0%; /* Back to square */
+    }
+}
+
+/* Flash animation for exit points */
+@keyframes exitFlash {
+    0% {
+        background-color: #ffeb3b; /* Yellow */
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(255, 235, 59, 0.5);
+        border-radius: 50%; /* Circle */
+    }
+    50% {
+        background-color: #ffc107; /* Amber */
+        transform: scale(1.2); /* Slightly enlarge */
+        box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+        border-radius: 50%; /* Circle */
+    }
+    100% {
+        background-color: transparent; /* Reset to default */
+        transform: scale(1);
+        box-shadow: none;
+        border-radius: 0%; /* Back to square */
+    }
+}
+
+/* Flash animation for blocked entry points */
+@keyframes blockedFlash {
+    0% {
+        background-color: #000; /* Black */
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        border-radius: 50%; /* Circle */
+    }
+    50% {
+        background-color: #333; /* Dark gray */
+        transform: scale(1.2); /* Slightly enlarge */
+        box-shadow: 0 0 15px rgba(51, 51, 51, 0.8);
+        border-radius: 50%; /* Circle */
+    }
+    100% {
+        background-color: transparent; /* Reset to default */
+        transform: scale(1);
+        box-shadow: none;
+        border-radius: 0%; /* Back to square */
+    }
+}
+
+/* Apply entry animation */
+.entry-flash {
+    animation: entryFlash 1s ease-in-out;
+}
+
+/* Apply exit animation */
+.exit-flash {
+    animation: exitFlash 1s ease-in-out;
+}
+
+/* Apply blocked animation */
+.entry-blocked {
+    animation: blockedFlash 1s ease-in-out;
+}
+
+.controls {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.controls button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #0056b3;
+}
+.laser-result {
+    font-size: 12px;
+    color: #333;
+    margin-top: 4px;
+    text-align: center;
+}
+/* Container for results below entry point */
+.entry-result {
+    display: flex; /* Use flex to align items horizontally */
+    align-items: center;
+    gap: 4px; /* Space between text and circles */
+    margin-top: 4px;
+}
+
+/* Exit point text */
+.entry-exit-text {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Color circle styles */
+.color-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Button color flash animation */
+.button-color-flash {
+    animation: colorFlash 0.3s ease;
+}
+
+/* Keyframes for the color flash animation */
+@keyframes colorFlash {
+    0% {
+        box-shadow: 0 5px 15px rgba(145, 92, 182, 0.7);
+    }
+    25%{
+        box-shadow: 0 2px 10px rgba(252, 255, 54, 0.5);
+        background-color: #4e6ec5;
+    }
+    50% {
+        box-shadow: 0 2px 10px rgba(255, 251, 0, 0.5);
+        background-color: #4e6ec5;
+    }
+    100% {
+        box-shadow: 0 5px 15px rgba(145, 92, 182, 0.7);
+    }
+}
+@keyframes change {
+    0%{
+        box-shadow: 0 10px 20px rgba(145, 92, 182, 0.7);
+    }
+    25%{
+        box-shadow: 0 10px 20px rgba(105, 92, 182, 0.7);
+    }
+    50%{
+        box-shadow: 0 10px 20px rgba(92, 116, 182, 0.7);
+    }
+    75%{
+        box-shadow: 0 10px 20px rgba(92, 154, 182, 0.7);
+    }
+    100%{
+        box-shadow: 0 10px 20px rgba(145, 92, 182, 0.7);
+    }
+}
+
+/* Persistent blocker circle */
+.blocker-cell {
+    background-color: black;
+    border-radius: 50%;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
+/* Blocker animation only on player interaction */
+.blocker-interaction {
+    animation: blockerScale 0.4s ease-in-out;
+}
+
+@keyframes blockerScale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* Slight enlarge */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.turnb {
+    color: #000;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  }
+
+
+
+
+  

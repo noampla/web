@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Reflection Game</title>
+    <link rel="stylesheet" href="laser.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+    <div class="game-container">
+        <h1>Laser Reflection Game</h1> <!-- Title above the game board -->
+        <div class="controls">
+            <button class="top-button" id="selectRed">Place Red</button>
+            <button class="top-button" id="selectBlue">Place Blue</button>
+            <button class="top-button" id="selectGreen">Place Green</button>
+            <button class="top-button" id="selectBlocker">Place Blocker</button>
+            <button class="top-button" id="removeObject">Remove Object</button>
+            <button class="top-button" id="checkButton">Check Solution</button>
+            <button class="top-button" id="surrenderButton">Surrender</button>           
+            <p><span id="turnCount" class="turnb">start to play</span></p>
+        </div>
+        
+        <div id="board" class="board"></div> <!-- Game board -->
+        <div class="output" id="output">The laser's path will be displayed here.</div> <!-- Output for results -->
+    </div>
+    <script src="laser.js"></script> <!-- Link to the JavaScript file -->
+</body>
+</html>
