@@ -21,11 +21,6 @@ function placeObject(index) {
     const x = index % boardSize;
     const y = Math.floor(index / boardSize);
 
-    // Prevent placement on existing blockers
-    if (pcBoard[index] === 'B') {
-        console.log(`Cannot place object at position ${index}, it's a blocker.`);
-        return;
-    }
 
     if (x > 0 && x < boardSize - 1 && y > 0 && y < boardSize - 1) {
         // Update player's board
@@ -89,6 +84,8 @@ function initializeControls() {
     document.getElementById('selectRed').onclick = () => selectObject('red');
     document.getElementById('selectBlue').onclick = () => selectObject('blue');
     document.getElementById('selectGreen').onclick = () => selectObject('green');
+    document.getElementById('selectMirrorForward').onclick = () => selectObject('/');
+    document.getElementById('selectMirrorBackward').onclick = () => selectObject('\\');
     document.getElementById('selectBlocker').onclick = () => selectObject('B');
     document.getElementById('removeObject').onclick = () => selectObject(' ');
     document.getElementById('checkButton').onclick = checkSolution;
@@ -159,9 +156,13 @@ function initializeBoard() {
                     cell.style.backgroundColor = playerBoard[i]; // Display colors
                 } else if (playerBoard[i] === 'B') {
                     cell.style.backgroundColor = 'black'; // Display blockers as black
+                } else if (playerBoard[i] === '/' || playerBoard[i] === '\\') {
+                    cell.textContent = playerBoard[i]; // Display mirrors
+                    cell.style.color = '#555'; // Grey color for mirrors
+                    cell.style.fontWeight = 'bold';
                 }
             }
-
+            
             cell.onclick = () => placeObject(i); // Allow players to place objects
         } else {
             // Empty border cells
@@ -195,6 +196,10 @@ function surrender() {
                     cell.setAttribute('style', `background-color: ${pcBoard[index]}`); // Reveal colors
                 } else if (pcBoard[index] === 'B') {
                     cell.setAttribute('style', 'background-color: black'); // Reveal blocker
+                } else if (pcBoard[index] === '/' || pcBoard[index] === '\\') {
+                    cell.textContent = pcBoard[index]; // Reveal mirrors
+                    cell.style.color = '#555'; // Grey color for mirrors
+                    cell.style.fontWeight = 'bold';
                 }
             }
         }
@@ -244,6 +249,13 @@ function randomizeObjects() {
     pcBoard[bluePosition] = 'blue';
     pcBoard[greenPosition] = 'green';
     console.log(`Colors placed: Red at ${redPosition}, Blue at ${bluePosition}, Green at ${greenPosition}`);
+
+    // Place the mirrors
+    for (let i = 0; i < 3; i++) {
+        const mirrorPosition = getRandomPosition();
+        pcBoard[mirrorPosition] = Math.random() > 0.5 ? '/' : '\\'; // Randomly choose between '/' and '\'
+        console.log(`Mirror placed at index ${mirrorPosition}`);
+    }
 }
 
 
@@ -471,8 +483,7 @@ function traceLaser(position, direction) {
             if (y === boardSize - 1 && direction === "down") exit = String.fromCharCode(71 + x - 1); // Bottom row (G-L)
             if (x === 0 && direction === "left") exit = y; // Left column (1-6)
             if (x === boardSize - 1 && direction === "right") exit = 6 + y; // Right column (7-12)
-            console.log('EXIT POINT')
-            
+
             console.log(`Laser exits at ${exit}`);
             return { exit, hitColors: Array.from(hitColors), blocked: false };
         }
@@ -487,9 +498,24 @@ function traceLaser(position, direction) {
         }
 
         // Check if the laser hits a color
-        if (pcBoard[position]) {
-            console.log(`Laser hits color: ${pcBoard[position]} at position ${position}`);
-            hitColors.add(pcBoard[position]);
+        if (['red', 'blue', 'green'].includes(cell)) {
+            console.log(`Laser hits color: ${cell} at position ${position}`);
+            hitColors.add(cell);
+        }
+
+        // Check if the laser hits a mirror
+        if (cell === "/") {
+            console.log(`Laser hits mirror '/' at position ${position}`);
+            if (direction === "right") direction = "up";
+            else if (direction === "up") direction = "right";
+            else if (direction === "left") direction = "down";
+            else if (direction === "down") direction = "left";
+        } else if (cell === "\\") {
+            console.log(`Laser hits mirror '\\' at position ${position}`);
+            if (direction === "right") direction = "down";
+            else if (direction === "up") direction = "left";
+            else if (direction === "left") direction = "up";
+            else if (direction === "down") direction = "right";
         }
 
         // Move the laser in the current direction
