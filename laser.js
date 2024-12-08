@@ -87,6 +87,7 @@ function initializeControls() {
     document.getElementById('selectMirrorForward').onclick = () => selectObject('/');
     document.getElementById('selectMirrorBackward').onclick = () => selectObject('\\');
     document.getElementById('selectBlocker').onclick = () => selectObject('B');
+    document.getElementById('selectTeleporter').onclick = () => selectObject('T');
     document.getElementById('removeObject').onclick = () => selectObject(' ');
     document.getElementById('checkButton').onclick = checkSolution;
     document.getElementById('surrenderButton').onclick = surrender; // Add surrender button functionality
@@ -156,13 +157,12 @@ function initializeBoard() {
                     cell.style.backgroundColor = playerBoard[i]; // Display colors
                 } else if (playerBoard[i] === 'B') {
                     cell.style.backgroundColor = 'black'; // Display blockers as black
-                } else if (playerBoard[i] === '/' || playerBoard[i] === '\\') {
-                    cell.textContent = playerBoard[i]; // Display mirrors
-                    cell.style.color = '#555'; // Grey color for mirrors
-                    cell.style.fontWeight = 'bold';
+                } else if (playerBoard[i] === 'T1' || playerBoard[i] === 'T2') {
+                    cell.textContent = playerBoard[i]; // Display teleporter
+                    cell.classList.add('teleporter'); // Add teleporter styling
                 }
             }
-            
+
             cell.onclick = () => placeObject(i); // Allow players to place objects
         } else {
             // Empty border cells
@@ -172,6 +172,7 @@ function initializeBoard() {
         boardContainer.appendChild(cell); // Add cell to the board
     }
 }
+
 
 
 
@@ -196,10 +197,11 @@ function surrender() {
                     cell.setAttribute('style', `background-color: ${pcBoard[index]}`); // Reveal colors
                 } else if (pcBoard[index] === 'B') {
                     cell.setAttribute('style', 'background-color: black'); // Reveal blocker
-                } else if (pcBoard[index] === '/' || pcBoard[index] === '\\') {
+                } else if (pcBoard[index] === 'T1' || pcBoard[index] === 'T2') {
+                    cell.textContent = pcBoard[index]; // Reveal teleporter
+                    cell.classList.add('teleporter'); // Add teleporter styling
+                } else if (pcBoard[index] === '\\' || pcBoard[index] === '/') {
                     cell.textContent = pcBoard[index]; // Reveal mirrors
-                    cell.style.color = '#555'; // Grey color for mirrors
-                    cell.style.fontWeight = 'bold';
                 }
             }
         }
@@ -208,6 +210,8 @@ function surrender() {
     const outputDiv = document.getElementById('output');
     outputDiv.textContent = 'You surrendered! Here is the solution.';
 }
+
+
 
 
 
@@ -250,7 +254,6 @@ function randomizeObjects() {
     // Place the blocker
     const blockerPosition = getRandomPosition();
     pcBoard[blockerPosition] = 'B';
-    console.log(`Blocker placed at index ${blockerPosition}`);
 
     // Place the colors
     const redPosition = getRandomPosition();
@@ -259,15 +262,24 @@ function randomizeObjects() {
     pcBoard[redPosition] = 'red';
     pcBoard[bluePosition] = 'blue';
     pcBoard[greenPosition] = 'green';
-    console.log(`Colors placed: Red at ${redPosition}, Blue at ${bluePosition}, Green at ${greenPosition}`);
 
-    // Place the mirrors
-    for (let i = 0; i < 3; i++) {
+    // Place mirrors
+    for (let i = 0; i < 2; i++) {
         const mirrorPosition = getRandomPosition();
-        pcBoard[mirrorPosition] = Math.random() > 0.5 ? '/' : '\\'; // Randomly choose between '/' and '\'
-        console.log(`Mirror placed at index ${mirrorPosition}`);
+        pcBoard[mirrorPosition] = i % 2 === 0 ? '\\' : '/'; // Alternate between '\' and '/'
     }
+
+    // Place teleporters
+    const teleporter1 = getRandomPosition();
+    const teleporter2 = getRandomPosition();
+    pcBoard[teleporter1] = 'T1';
+    pcBoard[teleporter2] = 'T2';
+
+    console.log(`Blocker placed at ${blockerPosition}`);
+    console.log(`Colors placed: Red at ${redPosition}, Blue at ${bluePosition}, Green at ${greenPosition}`);
+    console.log(`Teleporters placed: T1 at ${teleporter1}, T2 at ${teleporter2}`);
 }
+
 
 
 
@@ -341,6 +353,7 @@ function queryLaser(position, direction) {
 
     // Handle the exit point animation
     if (!result.blocked && result.exit) {
+        console.log('Exit is: ' + result.exit);
         const exitCell = getLabelCell(result.exit);
         if (exitCell) {
             console.log('Adding exit animation to:', result.exit); // Debugging log
@@ -397,7 +410,9 @@ function createColorCircle(color) {
 
 
 function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent.trim() === String(label));
+    return Array.from(document.querySelectorAll('.cell')).find(cell => { 
+        return cell.textContent.trim() === String(label) || cell.textContent.trim().startsWith(String(label) + '→'); 
+    });
 }
 
 
@@ -425,55 +440,16 @@ function getLabelCellByPosition(position) {
     return document.querySelector(`.cell[data-position="${position}"]`);
 }
 
-// Helper function to find the label cell by its content (e.g., "12" or "A")
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
 // Helper function to find the correct cell for a given label position
 function getLabelCellByPosition(position) {
     return document.querySelector(`.cell[data-position="${position}"]`);
 }
 
-// Helper function to find the label cell by its content (e.g., "12" or "A")
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
-// Helper function to find the label cell by its content
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
-// Helper function to find the label cell by its content
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
-// Helper function to find the label cell by its content
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
-// Helper function to find the label cell by its content
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
-
-// Helper function to find the label cell by its content
-function getLabelCell(label) {
-    return Array.from(document.querySelectorAll('.cell')).find(cell => cell.textContent === String(label));
-}
-
 function traceLaser(position, direction) {
     const hitColors = new Set(); // Track colors hit
     let blocked = false;
+    let teleportedFrom = null; // Track the last teleporter visited
+    let teleportedTo = null;
 
     console.log(`Starting traceLaser from position ${position}, direction: ${direction}`);
 
@@ -509,24 +485,36 @@ function traceLaser(position, direction) {
         }
 
         // Check if the laser hits a color
-        if (['red', 'blue', 'green'].includes(cell)) {
+        if (cell === "red" || cell === "blue" || cell === "green") {
             console.log(`Laser hits color: ${cell} at position ${position}`);
             hitColors.add(cell);
         }
 
         // Check if the laser hits a mirror
-        if (cell === "/") {
-            console.log(`Laser hits mirror '/' at position ${position}`);
+        if (cell === "\\") {
+            if (direction === "right") direction = "down";
+            else if (direction === "down") direction = "right";
+            else if (direction === "left") direction = "up";
+            else if (direction === "up") direction = "left";
+            console.log(`Laser reflects off \\ at position ${position}, new direction: ${direction}`);
+        } else if (cell === "/") {
             if (direction === "right") direction = "up";
             else if (direction === "up") direction = "right";
             else if (direction === "left") direction = "down";
             else if (direction === "down") direction = "left";
-        } else if (cell === "\\") {
-            console.log(`Laser hits mirror '\\' at position ${position}`);
-            if (direction === "right") direction = "down";
-            else if (direction === "up") direction = "left";
-            else if (direction === "left") direction = "up";
-            else if (direction === "down") direction = "right";
+            console.log(`Laser reflects off / at position ${position}, new direction: ${direction}`);
+        }
+
+        // Check if the laser hits a teleporter
+        if (cell === "T1" || cell === "T2") {
+            if (teleportedFrom === position) {
+                console.log(`Laser skips teleport at ${position} to avoid infinite loop`);
+                return { exit: null, hitColors: Array.from(hitColors), blocked: true };
+            }
+            const targetTeleporter = cell === "T1" ? pcBoard.indexOf("T2") : pcBoard.indexOf("T1");
+            console.log(`Laser teleports from ${position} to ${targetTeleporter}`);
+
+            position = targetTeleporter;
         }
 
         // Move the laser in the current direction
@@ -536,13 +524,15 @@ function traceLaser(position, direction) {
         else if (direction === "down") position += boardSize;
         else if (direction === "up") position -= boardSize;
 
-        // Prevent infinite loops or invalid positions
+        // Prevent invalid positions
         if (position < 0 || position >= boardSize * boardSize) {
             console.error(`Unexpected out-of-bounds error at position ${position}`);
             return { exit: null, hitColors: Array.from(hitColors), blocked: false };
         }
     }
 }
+
+
 
 
 

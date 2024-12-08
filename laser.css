@@ -274,6 +274,17 @@ button:hover {
     color: #333;
 }
 
+.cell.teleporter {
+    background-color: #ffd700; /* Gold for teleporters */
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #ffcc00;
+    border-radius: 50%; /* Optional: Make teleporters look circular */
+}
+
+
+
 /* Color circle styles */
 .color-circle {
     width: 12px;
