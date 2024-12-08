@@ -167,10 +167,9 @@ button:hover {
         border-radius: 50%; /* Circle */
     }
     100% {
-        background-color: transparent; /* Reset to default */
+        background-color: #edf2f7; /* Reset to default */
         transform: scale(1);
-        box-shadow: none;
-        border-radius: 0%; /* Back to square */
+        border-radius: 8px; /* Back to square */
     }
 }
 
@@ -189,10 +188,9 @@ button:hover {
         border-radius: 50%; /* Circle */
     }
     100% {
-        background-color: transparent; /* Reset to default */
+        background-color: #edf2f7; /* Reset to default */
         transform: scale(1);
-        box-shadow: none;
-        border-radius: 0%; /* Back to square */
+        border-radius: 8px; /* Back to square */
     }
 }
 
@@ -211,10 +209,9 @@ button:hover {
         border-radius: 50%; /* Circle */
     }
     100% {
-        background-color: transparent; /* Reset to default */
+        background-color: #edf2f7; /* Reset to default */
         transform: scale(1);
-        box-shadow: none;
-        border-radius: 0%; /* Back to square */
+        border-radius: 8px; /* Back to square */
     }
 }
 

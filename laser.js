@@ -57,7 +57,8 @@ function checkSolution() {
 
     for (let i = 0; i < pcBoard.length; i++) {
         // Check if the player's placement matches the pcBoard
-        if (pcBoard[i] !== playerBoard[i]) {
+        var pcValueToCompare = pcBoard[i].replace('T1', 'T').replace('T2', 'T');
+        if (pcValueToCompare !== playerBoard[i]) {
             console.log(`Mismatch at index ${i}: Expected '${pcBoard[i]}', Found '${playerBoard[i]}'`);
             correct = false;
         }
@@ -264,9 +265,9 @@ function randomizeObjects() {
     pcBoard[greenPosition] = 'green';
 
     // Place mirrors
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
         const mirrorPosition = getRandomPosition();
-        pcBoard[mirrorPosition] = i % 2 === 0 ? '\\' : '/'; // Alternate between '\' and '/'
+        pcBoard[mirrorPosition] = Math.random() < 0.5 ? '\\' : '/'; // Randomly choose between '\' and '/'
     }
 
     // Place teleporters
