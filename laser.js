@@ -213,6 +213,17 @@ function surrender() {
 
 
 
+function restartGame() {
+    turnCount = 0; // Reset turn count
+    playerBoard = Array(boardSize * boardSize).fill(''); // Reset player's board
+    pcBoard.fill(''); // Reset the PC board
+    initializeBoard(); // Reinitialize the board
+    const outputDiv = document.getElementById('output');
+    outputDiv.textContent = ''; // Clear the output area
+    console.log("Game restarted");
+}
+
+document.getElementById('restartGameButton').onclick = restartGame;
 
 
 
