@@ -20,15 +20,28 @@ body {
 .logo {
     font-size: 48px;
     font-weight: 900;
-    color: #ff005c;
+    color: #fa357d;
     text-transform: uppercase;
     letter-spacing: 2px;
-    animation: glow 1.5s infinite alternate;
+    animation: change 1s infinite;
 }
 
-@keyframes glow {
-    0% { text-shadow: 0 0 10px #ff005c, 0 0 20px #ff005c, 0 0 30px #ff005c; }
-    100% { text-shadow: 0 0 20px #ff005c, 0 0 30px #ff005c, 0 0 40px #ff005c; }
+@keyframes change {
+    0%{
+        text-shadow: 0 0px 20px rgba(145, 92, 182, 0.7);
+    }
+    25%{
+        text-shadow: 0 0px 20px rgba(105, 92, 182, 0.7);
+    }
+    50%{
+        text-shadow: 0 0px 20px rgba(92, 116, 182, 0.7);
+    }
+    75%{
+        text-shadow: 0 0px 20px rgba(92, 154, 182, 0.7);
+    }
+    100%{
+        text-shadow: 0 0px 20px rgba(145, 92, 182, 0.7);
+    }
 }
 
 .tagline {
@@ -60,8 +73,14 @@ body {
     color: #fff;
 }
 
-
-
+.countdown:hover {
+    animation: scale 0.5s;
+    scale: 105%;
+}
+@keyframes scale {
+    0% {scale: 100%;}
+    100%{scale: 105%;}
+}
 
 .button {
     display: inline-block;

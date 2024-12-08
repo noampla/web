@@ -41,6 +41,36 @@ h1 {
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for the board */
 }
 
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .board {
+        grid-template-columns: repeat(8, 50px); /* Smaller cells */
+        grid-template-rows: repeat(8, 50px);
+        gap: 2px;
+        overflow-x: auto;
+    }
+
+    .cell {
+        font-size: 12px; /* Adjust font size for mobile */
+    }
+
+    
+    .controls button {
+        padding: 8px 10px; /* Smaller buttons */
+        font-size: 12px;
+    }
+
+    .output {
+        font-size: 50%; /* Adjust output text size */
+        width: 80%; /* Adjust width for mobile */
+        
+    }
+}
+
 /* Individual cell styling */
 .cell {
     display: flex;
