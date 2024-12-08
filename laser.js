@@ -29,16 +29,22 @@ function placeObject(index) {
         const cell = document.querySelector(`.cell[data-position="${index}"]`);
         if (selectedObject === ' ') {
             cell.textContent = ''; // Clear the cell if "remove" is selected
-            cell.style.backgroundColor = ''; // Reset background
+            cell.classList = 'cell'; // Reset background
         } else if (['red', 'blue', 'green'].includes(selectedObject)) {
             cell.textContent = ''; // No text for colors
             cell.style.backgroundColor = selectedObject; // Inline style for colors
         } else if (selectedObject === 'B') {
             cell.textContent = ''; // No text for blockers
             cell.style.backgroundColor = 'black'; // Inline style for blockers
-        } else {
-            cell.textContent = selectedObject; // Add the text for other objects
-            cell.style.backgroundColor = ''; // Reset color for text-based objects
+        } else if (selectedObject === 'T'){
+            cell.textContent = ''; // Add the text for other objects
+            cell.classList.add('teleporter');
+        } else if (selectedObject === '/'){
+            cell.textContent = '';
+            cell.classList.add('Lmirror')
+        } else if (selectedObject === '\\') {
+            cell.textContent = '';
+            cell.classList.add('Rmirror')
         }
     }
 }
@@ -161,7 +167,7 @@ function initializeBoard() {
                 } else if (playerBoard[i] === 'T1' || playerBoard[i] === 'T2') {
                     cell.textContent = playerBoard[i]; // Display teleporter
                     cell.classList.add('teleporter'); // Add teleporter styling
-                }
+                } 
             }
 
             cell.onclick = () => placeObject(i); // Allow players to place objects
@@ -190,19 +196,22 @@ function surrender() {
     cells.forEach((cell, index) => {
         const x = index % boardSize;
         const y = Math.floor(index / boardSize);
-
+        
         if (x > 0 && x < boardSize - 1 && y > 0 && y < boardSize - 1) {
             // Reveal the pcBoard contents
             if (pcBoard[index]) {
+                cell.classList.add('solution');
                 if (['red', 'blue', 'green'].includes(pcBoard[index])) {
                     cell.setAttribute('style', `background-color: ${pcBoard[index]}`); // Reveal colors
                 } else if (pcBoard[index] === 'B') {
                     cell.setAttribute('style', 'background-color: black'); // Reveal blocker
                 } else if (pcBoard[index] === 'T1' || pcBoard[index] === 'T2') {
-                    cell.textContent = pcBoard[index]; // Reveal teleporter
+                    cell.textContent = ''; // Reveal teleporter
                     cell.classList.add('teleporter'); // Add teleporter styling
-                } else if (pcBoard[index] === '\\' || pcBoard[index] === '/') {
-                    cell.textContent = pcBoard[index]; // Reveal mirrors
+                } else if (pcBoard[index] === '\\') {
+                    cell.classList.add('Rmirror');
+                } else if (pcBoard[index] === '/') {
+                    cell.classList.add('Lmirror');
                 }
             }
         }

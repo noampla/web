@@ -100,6 +100,9 @@ h1 {
     border: 2px solid #444;
 }
 
+
+
+
 /* Output display styling */
 .output {
     margin-top: 10px;
@@ -272,15 +275,22 @@ button:hover {
 }
 
 .cell.teleporter {
-    background-color: #ffd700; /* Gold for teleporters */
+    background-size: contain;
+    background-image: url("teleport.png");
     color: black;
     font-weight: bold;
     text-align: center;
-    border: 2px solid #ffcc00;
-    border-radius: 50%; /* Optional: Make teleporters look circular */
 }
 
+.Rmirror {
+    background-image: url("mirrors.PNG");
+    background-size: contain;
+}
 
+.Lmirror {
+    background-image: url("Lmirrors.png");
+    background-size: contain;
+}
 
 /* Color circle styles */
 .color-circle {
@@ -379,4 +389,8 @@ button:hover {
 #restartGameButton:hover {
     background-color: #e64a19;
     transform: scale(1.05);
+}
+
+.solution {
+    box-shadow: 0px 0px 5px #62ff00
 }
