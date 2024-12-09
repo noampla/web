@@ -1,9 +1,11 @@
 const boardSize = 8; // 8x8 matrix (includes borders)
 const playableSize = 6; // 6x6 playable area
 const pcBoard = Array(boardSize * boardSize).fill(''); // Initialize empty board
-
+let noB = ('true')
+let Banimation = ('false')
 let playerBoard = Array(boardSize * boardSize).fill(''); // Player's board
 let turnCount = 0; // Track the number of turns
+let numB = (0)
 
 const laserResults = {}; // Store results for each entry point
 
@@ -30,20 +32,26 @@ function placeObject(index) {
         if (selectedObject === ' ') {
             cell.textContent = ''; // Clear the cell if "remove" is selected
             cell.classList = 'cell'; // Reset background
+            cell.style.backgroundColor = 'white' 
         } else if (['red', 'blue', 'green'].includes(selectedObject)) {
             cell.textContent = ''; // No text for colors
+            cell.classList = 'cell';
             cell.style.backgroundColor = selectedObject; // Inline style for colors
         } else if (selectedObject === 'B') {
             cell.textContent = ''; // No text for blockers
+            cell.classList = 'cell';
             cell.style.backgroundColor = 'black'; // Inline style for blockers
         } else if (selectedObject === 'T'){
             cell.textContent = ''; // Add the text for other objects
+            cell.classList = 'cell';
             cell.classList.add('teleporter');
         } else if (selectedObject === '/'){
             cell.textContent = '';
+            cell.classList = 'cell';
             cell.classList.add('Lmirror')
         } else if (selectedObject === '\\') {
             cell.textContent = '';
+            cell.classList = 'cell';
             cell.classList.add('Rmirror')
         }
     }
@@ -97,6 +105,14 @@ function initializeControls() {
     document.getElementById('selectTeleporter').onclick = () => selectObject('T');
     document.getElementById('removeObject').onclick = () => selectObject(' ');
     document.getElementById('checkButton').onclick = checkSolution;
+    document.getElementById('noblocker').onclick = () => {
+        if (numB === 0) {
+            noB = ('false')
+        }
+        numB = (1)
+        badge.textContent = 0
+    };
+
     document.getElementById('surrenderButton').onclick = surrender; // Add surrender button functionality
 
     // Add click event for each playable cell
@@ -232,6 +248,8 @@ function restartGame() {
     playerBoard = Array(boardSize * boardSize).fill(''); // Reset player's board
     pcBoard.fill(''); // Reset the PC board
     initializeBoard(); // Reinitialize the board
+    numB = 0
+    badge.textContent = 1
     const outputDiv = document.getElementById('output');
     outputDiv.textContent = ''; // Clear the output area
     console.log("Game restarted");
@@ -338,6 +356,10 @@ function queryLaser(position, direction) {
         resultContainer.classList.add('entry-result');
 
         // Add the exit point text or only the black circle if blocked
+        if (Banimation === 'true' && !result.blocked) {
+            startCell.style.border = '2px dashed black';
+            Banimation = 'false'
+        }
         if (result.blocked) {
             const blockerCircle = createColorCircle('black'); // Black circle for blocker
             resultContainer.appendChild(blockerCircle);
@@ -379,6 +401,7 @@ function queryLaser(position, direction) {
         outputDiv.textContent = `The laser was blocked. Turns: ${turnCount}`;
     } else {
         outputDiv.textContent = `The laser exits at ${result.exit}. Colors hit: ${result.hitColors.join(', ') || 'None'}. Turns: ${turnCount}`;
+        noB = 'true'
     }
 }
 
@@ -486,9 +509,11 @@ function traceLaser(position, direction) {
         }
 
         const cell = pcBoard[position];
-
+        if (cell === 'B' && noB === 'false') {
+            Banimation = 'true'
+        }
         // Check if the laser hits a blocker
-        if (cell === "B") {
+        if (cell === "B" && noB === 'true') {
             console.log(`Laser is blocked at position ${position}`);
             blocked = true;
             return { exit: null, hitColors: Array.from(hitColors), blocked: true };

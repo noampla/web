@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laser Reflection Game</title>
+    <link rel="icon" type="image/x-icon" href="NP.png">
     <link rel="stylesheet" href="laser.css"> <!-- Link to the mobile-specific CSS file -->
 </head>
 <body>
     <div class="game-container">
         <h1>Laser Reflection Game</h1>
         <div class="controls">
-            <button class="top-button" id="selectRed">Place Red</button>
-            <button class="top-button" id="selectBlue">Place Blue</button>
-            <button class="top-button" id="selectGreen">Place Green</button>
-            <button class="top-button" id="selectMirrorForward">Place Mirror /</button>
-            <button class="top-button" id="selectMirrorBackward">Place Mirror \</button>
-            <button class="top-button" id="selectTeleporter">Select Teleporter T</button>
-            <button class="top-button" id="selectBlocker">Place Blocker</button>
-            <button class="top-button" id="removeObject">Remove Object</button>
-            <button class="top-button" id="checkButton">Check Solution</button>
-            <button class="top-button" id="surrenderButton">Surrender</button>
+            <button class="button" id="selectRed">Place Red</button>
+            <button class="button" id="selectBlue">Place Blue</button>
+            <button class="button" id="selectGreen">Place Green</button>
+            <button class="button" id="selectMirrorForward">Place Mirror /</button>
+            <button class="button" id="selectMirrorBackward">Place Mirror \</button>
+            <button class="button" id="selectTeleporter">Select Teleporter T</button>
+            <button class="button" id="selectBlocker">Place Blocker</button>
+            <button class="button" id="removeObject">Remove Object</button>
+            <button class="button" id="checkButton">Check Solution</button>
+            <button class="button" id="surrenderButton">Surrender</button>
             <button class="restartGameButton" id="restartGameButton">Restart Game</button>
+            <p><button class="bblocker" id="noblocker">No Blocker
+                <span class="badge" id="badge">1</span>
+            </button></p>
             <p><span id="turnCount" class="turnb">Start to play</span></p>
         </div>
         
