@@ -6,7 +6,8 @@ let Banimation = ('false')
 let playerBoard = Array(boardSize * boardSize).fill(''); // Player's board
 let turnCount = 0; // Track the number of turns
 let numB = (0)
-
+const youwincontainer = document.querySelector('.youwincontainer');
+const restartGameButton = document.querySelector('.restartGameButton')
 const laserResults = {}; // Store results for each entry point
 
 
@@ -81,7 +82,8 @@ function checkSolution() {
     const outputDiv = document.getElementById('output');
     if (correct) {
         outputDiv.textContent = `Congratulations! You solved the board in ${turnCount} turns.`;
-        initializeBoard(); // Restart the game
+        youwincontainer.style.display = 'block'; // Make the message visible
+        restartGameButton.classList.add('win-animation');
     } else {
         outputDiv.textContent = `Incorrect! Keep trying. Turns: ${turnCount}`;
     }
@@ -93,8 +95,7 @@ function updateTurnCount() {
         turnCountDisplay.textContent = `Turns: ${turnCount}`;
     }
 }
-
-
+  
 function initializeControls() {
     document.getElementById('selectRed').onclick = () => selectObject('red');
     document.getElementById('selectBlue').onclick = () => selectObject('blue');
@@ -128,6 +129,8 @@ function initializeControls() {
 }
 
 function initializeBoard() {
+    youwincontainer.style.display = 'none';
+    restartGameButton.classList.remove('win-animation');
     const boardContainer = document.getElementById('board');
     boardContainer.innerHTML = ''; // Clear the board container
 
@@ -216,6 +219,7 @@ function surrender() {
         if (x > 0 && x < boardSize - 1 && y > 0 && y < boardSize - 1) {
             // Reveal the pcBoard contents
             if (pcBoard[index]) {
+                cell.classList = ('cell')
                 cell.classList.add('solution');
                 if (['red', 'blue', 'green'].includes(pcBoard[index])) {
                     cell.setAttribute('style', `background-color: ${pcBoard[index]}`); // Reveal colors

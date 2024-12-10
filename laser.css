@@ -435,7 +435,7 @@ h1 {
 
 
 
-  #restartGameButton {
+  .restartGameButton {
     background-color: #ff5722;
     color: white;
     border: none;
@@ -443,14 +443,110 @@ h1 {
     padding: 10px 20px;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
+    position: relative;
+    overflow: hidden; /* Prevent overflow of glow */
+    z-index: 0;
+    transition: transform 0.2s, background-color 0.3s; /* Smooth hover effect */
+  }
+  
+  #restartGameButton.win-animation::after {
+    content: '';
+    position: absolute;
+    top: 0px; /* Slightly outside the button */
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 5px; /* Slightly larger to show outside the button */
+    border: 4px solid transparent;
+    z-index: -1; /* Behind the button */
+    animation: stroke-glow 3s linear infinite; /* Apply stroke animation */
+  }
+  
+  @keyframes stroke-glow {
+    0% {
+      border-color: rgb(234, 0, 255);
+      box-shadow: 0 0 10px rgba(255, 0, 212, 0.7),
+                  0 0 20px rgba(225, 0, 255, 0.5),
+                  0 0 30px rgba(255, 0, 212, 0.3);
+    }
+    25% {
+      border-color: rgb(255, 0, 0);
+      box-shadow: 0 0 10px rgba(255, 8, 0, 0.7),
+                  0 0 20px rgba(255, 17, 0, 0.5),
+                  0 0 30px rgba(255, 81, 0, 0.3);
+    }
+    50% {
+      border-color: yellow;
+      box-shadow: 0 0 10px rgba(255, 255, 0, 0.7),
+                  0 0 20px rgba(255, 255, 0, 0.5),
+                  0 0 30px rgba(255, 255, 0, 0.3);
+    }
+    75% {
+      border-color: green;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.7),
+                  0 0 20px rgba(0, 255, 0, 0.5),
+                  0 0 30px rgba(0, 255, 0, 0.3);
+    }
+    100% {
+      border-color: blue;
+      box-shadow: 0 0 10px rgba(0, 0, 255, 0.7),
+                  0 0 20px rgba(0, 0, 255, 0.5),
+                  0 0 30px rgba(0, 0, 255, 0.3);
+    }
+  }
 
-#restartGameButton:hover {
+.restartGameButton:hover {
     background-color: #e64a19;
     transform: scale(1.05);
 }
 
 .solution {
-    box-shadow: 0px 0px 5px #62ff00
+    box-shadow: 0px 0px 7px #62ff00;
 }
+  
+  /* מיכל הטקסט */
+  .youwincontainer {
+    position: absolute;
+    top: 68.3%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none;
+  }
+  
+  /* סגנון לטקסט */
+  .you-win {
+    font-size: 9rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    animation: glow 1.5s infinite alternate ease-in-out, slide-in 2s ease-out;
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* אנימציה של זוהר */
+  @keyframes glow {
+    to {
+      text-shadow: 0 0 20px rgba(255, 255, 255, 1),
+                   0 0 40px rgba(255, 94, 58, 0.8),
+                   0 0 60px rgba(255, 94, 58, 0.6);
+    }
+  }
+  
+  /* אנימציה של הופעה */
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
